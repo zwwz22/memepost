@@ -1,3 +1,12 @@
 /*
- *= require_tree .
+ *= require bootstrap/bootstrap.min
+ *= require compiled/calendar
+ *= require compiled/theme_styles
+ *= require compiled/wizard
+ *= require libs/font-awesome
+ *= require libs/fullcalendar.css
+ *= require libs/fullcalendar.print
+ *= require libs/morris
+ *= require libs/datepicker
+ *= require libs/jquery-jvectormap-1.2.2
  */

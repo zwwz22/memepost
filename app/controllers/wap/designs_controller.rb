@@ -30,7 +30,7 @@ class Wap::DesignsController < Wap::ApplicationController
       @order.save
     else
       @order = Order.new
-      @order.user_id = @user.id
+      @order.user_id = 1
       @order.x = params[:x]
       @order.y = params[:y]
       @order.scale = params[:scale]

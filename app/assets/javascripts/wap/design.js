@@ -173,8 +173,12 @@ function main_design() {
     imageContainerHeight: img_h,
     rotation:init_rotation
   });
-
+//  setTimeout(function(){
+//    alert(design.attrs.posX+'||| y='+ design.attrs.posY)
+//  },500)
   $('#submit').click(function () {
+    alert(design.attrs.posX+'||| y='+ design.attrs.posY)
+
 //    var media_id = 's94eGh8sv_0_9p4f9F-EEH-m7BhGoJ-UqcqveDJNkId1T2-cBdMi7vjYOi3fll9n'; //获取media_id
     var media_id = $.cookie('mediaId'); //获取media_id
     if (sub == true && media_id) {
@@ -186,7 +190,6 @@ function main_design() {
         if(design.attrs.scale>0){
 
 
-          alert(design.attrs.posX+'||| y='+ design.attrs.posX)
 
           $.ajax({
             type: 'POST',
