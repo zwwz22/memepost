@@ -1,8 +1,4 @@
-if Rails.env == 'development'
-source 'http://ruby.taobao.org'
-else
-  source 'http://rubygems.org/'
-end
+source 'http://rubygems.org/'
 
 gem 'rails', '3.2.20'
 
