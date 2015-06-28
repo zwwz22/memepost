@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Memepost</title>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+
+<body class="fixed-header pace-done fixed-leftmenu">
+
+  <div class="pace  pace-inactive">
+  <div class="pace-progress" data-progress-text="100%" data-progress="99" style="width: 100%;">
+    <div class="pace-progress-inner"></div>
+  </div>
+  <div class="pace-activity"></div>
+</div>
+
+  <div id="theme-wrapper">
+
+  <%= render 'layouts/head' %>
+
+  <div id="page-wrapper" class="container">
+    <div class="row">
+      <div id="nav-col">
+        <%= render 'layouts/left' %>
+      </div>
+      <div id="content-wrapper">
+        <div class="row">
+          <%= yield %>
+        </div>
+
+        <%= render 'layouts/notice' %>
+
+        <%= render 'layouts/footer' %>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+<%= yield :js %>
+</html>

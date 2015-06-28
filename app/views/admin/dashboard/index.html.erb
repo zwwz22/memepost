@@ -1,0 +1,121 @@
+
+<div class="row">
+  <div class="col-lg-3 col-sm-6 col-xs-12">
+    <div class="main-box infographic-box">
+      <i class="fa fa-user red-bg"></i>
+      <span class="headline">新增用户</span>
+<span class="value">
+<span class="timer" data-from="120" data-to="2562" data-speed="1000" data-refresh-interval="50">
+<%= @users %>
+</span>
+</span>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 col-xs-12">
+    <div class="main-box infographic-box">
+      <i class="fa fa-envelope-o emerald-bg"></i>
+      <span class="headline">今日消息</span>
+<span class="value">
+<span class="timer" data-from="30" data-to="658" data-speed="800" data-refresh-interval="30">
+<%= @messages %>
+</span>
+</span>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 col-xs-12">
+    <div class="main-box infographic-box">
+      <i class="fa fa-jpy green-bg"></i>
+      <span class="headline">今日订单</span>
+<span class="value">
+<span class="timer" data-from="83" data-to="8400" data-speed="900" data-refresh-interval="60">
+<%= @orders.count %>
+</span>
+</span>
+    </div>
+  </div>
+  <div class="col-lg-3 col-sm-6 col-xs-12">
+    <div class="main-box infographic-box">
+      <i class="fa fa-eye yellow-bg"></i>
+      <span class="headline">总订单</span>
+      <span class="value">
+      <span class="timer" data-from="539" data-to="<%= @total%>" data-speed="1100">
+      <%= @total%>
+      </span>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-9 col-lg-12">
+    <div class="main-box">
+      <div class="row">
+        <div class="col-md-9">
+          <div class="graph-box emerald-bg">
+            <h2>近期数据</h2>
+<div class="graph" id="graph-line" style="max-height: 335px; position: relative; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="row graph-nice-legend">
+            <div class="graph-legend-row col-md-12 col-sm-4">
+              <div class="graph-legend-row-inner">
+                <span class="graph-legend-name">
+                111
+                </span>
+                <span class="graph-legend-value">
+                111
+                </span>
+              </div>
+            </div>
+            <div class="graph-legend-row col-md-12 col-sm-4">
+              <div class="graph-legend-row-inner">
+                <span class="graph-legend-name">
+               222
+                </span>
+                <span class="graph-legend-value">
+                222
+                </span>
+              </div>
+            </div>
+            <div class="graph-legend-row col-md-12 col-sm-4">
+              <div class="graph-legend-row-inner">
+                <span class="graph-legend-name">
+               333
+                </span>
+              <span class="graph-legend-value">
+             333
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= content_for :js do  %>
+  <%= javascript_include_tag 'raphael-min' %>
+  <%= javascript_include_tag 'morris.min' %>
+  <script>
+    var orders = [];
+    <% @orders.each do |order|%>
+    var row = {day:'<%= order.day %>',count:<%= order.count %>};
+    orders.push(row);
+    <% end %>
+
+    new Morris.Line({
+      element: 'graph-line',
+      data: orders,
+      lineColors: ['#ffffff'],
+      xkey: 'day',
+      ykeys: ['count'],
+      labels: ['订单数'],
+      pointSize: 3,
+      hideHover: 'auto',
+      gridTextColor: '#ffffff',
+      gridLineColor: 'rgba(255, 255, 255, 0.3)',
+      resize: true
+    });
+  </script>
+<% end %>

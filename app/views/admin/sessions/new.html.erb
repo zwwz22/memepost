@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <title>登陆</title>
+
+  <%= stylesheet_link_tag 'bootstrap/bootstrap.min' %>
+
+  <%= stylesheet_link_tag 'libs/font-awesome'  %>
+  <%= stylesheet_link_tag 'libs/nanoscroller'  %>
+  <%= stylesheet_link_tag 'compiled/theme_styles'  %>
+
+  <%=javascript_include_tag 'jquery'%>
+
+  <link type="image/x-icon" href="favicon.png" rel="shortcut icon"/>
+  <!--[if lt IE 9]>
+  <%= javascript_include_tag 'html5shiv' %>
+  <%= javascript_include_tag 'respond.min' %>
+  <![endif]-->
+
+  <style>
+    .flash-error,.flash-success{
+      position: fixed;
+      right: -200px;
+      bottom: 0;
+    }
+  </style>
+
+</head>
+<body id="login-page">
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="login-box">
+        <div id="login-box-holder">
+          <div class="row">
+            <div class="col-xs-12">
+              <header id="login-header">
+                <div id="login-logo">
+                  <%= image_tag 'robert.jpg' %>
+                </div>
+              </header>
+              <div id="login-box-inner">
+                <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                    <%= f.text_field :admin_name,:class => 'form-control',:placeholder => '用户名' %>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                    <%= f.password_field :password,:class => 'form-control',:placeholder => '密码' %>
+                  </div>
+                  <div id="remember-me-wrapper">
+                    <div class="row">
+                      <div class="col-xs-6">
+                        <div class="checkbox-nice">
+                          <%= f.check_box :remember_me, :id => 'remember-me',:checked => 'checked'%>
+                          <label for="remember-me">
+                            记住我
+                          </label>
+                        </div>
+                      </div>
+                      <a href="javascript:forget()" id="login-forget-link" class="col-xs-6">
+                        忘记密码？
+                      </a>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <%= f.submit 'Login',:class => 'btn btn-success col-xs-12' %>
+                    </div>
+                  </div>
+               <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert alert-success fade flash-success">
+  <p></p>
+</div>
+
+<div class="alert alert-danger fade flash-error">
+  <p></p>
+</div>
+<script>
+  function forget(){
+    alert('呵呵~');
+  }
+</script>
+
+<script>
+  function showSuccess(msg){
+    $('.flash-success').addClass('in').find('p').text(msg);
+    $('.flash-success').animate({
+      right:'20px',
+      opacity:'1'
+    },2000);
+
+    setTimeout(function(){
+      $('.flash-success').animate({
+        right:'-200px',
+        opacity:'0'
+      },3000)
+    },4000)
+
+  }
+  function showError(msg){
+    $('.flash-error').addClass('in').find('p').text(msg);
+    $('.flash-error').animate({
+      right:'20px',
+      opacity:'1'
+    },2000);
+
+    setTimeout(function(){
+      $('.flash-error').animate({
+        right:'-200px',
+        opacity:'0'
+      },3000)
+    },4000)
+  }
+
+</script>
+
+<% if flash.present? %>
+  <script>
+    <% flash.each do |name, msg| %>
+    <% next if msg.to_s == 'true' %>
+    show<%= if name.to_s == 'notice'; 'Success' else 'Error' end %>("<%= msg %>");
+    <% end %>
+
+  </script>
+<% end %>
+
+
+
+
+</body>
+</html>
+

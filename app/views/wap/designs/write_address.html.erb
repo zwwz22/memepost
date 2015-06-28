@@ -1,0 +1,38 @@
+<%= stylesheet_link_tag 'wap/designs_writer' %>
+<div class="header">
+  <div class="left">
+    <div class="left_content">
+      <a href="<%= url_for new_wap_design_path(:osn => @order.osn) %>"> < &nbsp 上一步</a>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right_content">
+      <a href="javascript:void(0)" id="sub">下一步 &nbsp ></a>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div>
+    <input type="text" autofocus name="receiver" id="receiver" placeholder="姓名" value="<%= @order.try(:receiver)  %>"/>
+    <select name="" id="receiver_province" data-receiver_province="<%= @order.try(:receiver_province)%>"></select>
+    <select name="" id="receiver_city" data-receiver_city="<%= @order.try(:receiver_city)%>"></select>
+    <select name="" id="receiver_county" data-receiver_county="<%= @order.try(:receiver_county)%>"></select>
+    <!--<input type="checkbox" name="save_receiver" value="1"/><span>保存为我的地址</span>-->
+    <input name="receiver_post_no" autofocus type="text" id="receiver_post_no" placeholder="邮编" value="<%= @order.try(:receiver_post_no) %>"/>
+    <input type="text" autofocus  name="receiver_address" id="receiver_address" placeholder="请填写详细地址" value="<%= @order.try(:receiver_address) %>"/>
+    <input type="hidden" name="osn" id="osn"  value="<%= @order.osn %>"/>
+
+  </div>
+</div>
+<script>
+  var receiver = {
+    receiver_province:$('#receiver_province').data('receiver_province'),
+    receiver_city:$('#receiver_city').data('receiver_city'),
+    receiver_county:$('#receiver_county').data('receiver_county')
+  }
+</script>
+
+<%= javascript_include_tag 'wap/zipcodes' %>
+<script src="http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js" charset="gb2312"></script>
+<%= javascript_include_tag 'wap/write' %>

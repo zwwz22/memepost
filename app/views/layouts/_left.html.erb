@@ -1,0 +1,63 @@
+<section id="col-left" class="col-left-nano">
+<div id="col-left-inner" class="col-left-nano-content" tabindex="0">
+<div id="user-left-box" class="clearfix hidden-sm hidden-xs">
+  <%= image_tag 'robert.jpg' %>
+  <div class="user-box">
+<span class="name">
+Welcome<br>
+<%= current_admin.admin_name if current_admin%>
+</span>
+<span class="status">
+<i class="fa fa-circle"></i> Online
+</span>
+  </div>
+</div>
+  <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
+    <ul class="nav nav-pills nav-stacked">
+      <li class="<%= active('dashboard') %>">
+        <a href="/admin">
+          <i class="fa fa-dashboard"></i>
+          <span>控制台</span>
+        </a>
+      </li>
+      <li class="<% active('account')%>">
+        <a href="<%= url_for admin_templates_path %>" >
+          <i class="fa fa-users"></i>
+          <span>公众号管理</span>
+        </a>
+      </li>
+
+      <li class="<%= active('template') %>">
+        <a href="<%= url_for admin_templates_path %>">
+          <i class="fa fa-picture-o"></i>
+          <span>模板管理</span>
+        </a>
+      </li>
+
+      <li class="<%= active('categories') %>">
+        <a href="<%= admin_categories_path %>" >
+          <i class="fa fa-folder"></i>
+          <span>模板类别</span>
+        </a>
+      </li>
+      <li class="<%= active('question') %>" >
+        <a href="<%= admin_questions_path %>" >
+          <i class="fa fa-question"></i>
+          <span>问题管理</span>
+        </a>
+      </li>
+      <li class="<%= active('user') %>" >
+        <a href="#" >
+          <i class="fa fa-user"></i>
+          <span>用户管理</span>
+        </a>
+      </li>
+
+    </ul>
+  </div>
+</div>
+  <div class="nano-pane" style="display: block; opacity: 1; visibility: visible;">
+    <div class="nano-slider" style="height: 130px; transform: translate(0px, 0px);">
+  </div>
+</div>
+</section>

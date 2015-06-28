@@ -1,0 +1,179 @@
+<%= stylesheet_link_tag 'wap/designs_new' %>
+<%= stylesheet_link_tag 'wap/card' %>
+
+<div class="mask">
+</div>
+<div class="intro">
+  <div class="content">
+    <div class="pic"></div>
+    <div class="type">
+      <div class="select">
+        <p>类型</p>
+        <p>
+          <%= select_tag 'category', options_for_select(@categories.map{|c| [c.name,c.id]} )%>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="header">
+  <div class="left">
+    <div class="left_content">
+      <%= image_tag 'wap/tupian.png',:style => '  width: 14px;
+  position: absolute;
+  left: 18px;
+  top: 18px;' %>
+      <a href="<%= url_for wap_designs_path %>" style="margin-left: 10px"> 换图片</a>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right_content">
+      <a href="javascript:void(0)" id="submit">下一步&nbsp ></a>
+    </div>
+  </div>
+</div>
+<div class="content">
+  <div class="content_tpl">
+    <div id="tpl">
+      <div class="img"></div>
+
+      <%= image_tag @templates.first.image_url, :id => 'bg',:style => 'z-index: 400;' %>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="templates_content">
+      <% @templates.each do |template|%>
+
+  <div class="templates">
+      <div class="templates_pic ">
+        <%= image_tag template.image_url,
+                      :tid => template.id,
+                      :area_width => template.area_width, :area_height => template.area_height,
+                      :area_x => template.area_x, :area_y => template.area_y,
+                      :rotation => template.is_horizontal
+        %>
+      </div>
+    </div>
+        <% end %>
+  </div>
+  <div class="template_type">
+    <%= image_tag 'wap/type.png' %>
+  </div>
+</div>
+
+<input type="hidden" name="template_id" id="template_id" value="<%= @templates.first.id %>"/>
+<input type="hidden" name="account_id" id="account_id" value="<%= @account_id%>"/>
+<input type="hidden" name="osn" id="osn" value="<%= @order.osn if @order%>"/>
+
+<%= javascript_include_tag 'wap/jquery.cookie' %>
+<%= javascript_include_tag 'wap/hammer.min' %>
+<%= javascript_include_tag 'wap/design_card' %>
+<%= javascript_include_tag 'wap/wechat_online' %>
+<%= javascript_include_tag 'wap/design' %>
+
+<script>
+  var image_url =  $.cookie('localId');
+var image_url = 'http://nova-upload.oss-cn-hangzhou.aliyuncs.com/e755cd49-cdf2-48a6-96fa-61d1080b81cd'
+  if(image_url == '' || image_url == undefined){
+    window.location.href = "<%= wap_designs_url %>"
+  }
+
+  var has_many_templates = true;
+
+var count = <%= @templates.count %>;
+
+
+    $(function(){
+      $('.mask').click(function(){
+        $('.intro').animate({
+          top:'-100%',
+          opacity:'0'
+        },800);
+        $(this).hide();
+      });
+      $('.template_type').click(function(){
+        $('.intro').animate({
+          top:'40%',
+          opacity:'1'
+        },800);
+        $('.mask').show();
+      });
+
+      $('.templates_content').css({
+        width:count*82+'px'
+      });
+
+      //footer drag
+      var window_width = $(window).width();
+      var max_posX = (count*86-window_width+40) > 0 ? (count*86-window_width+40):0;
+      var hammer_footer = Hammer($('.footer').get(0), {
+//        transform_always_block: true,
+//        transform_min_scale: 1,
+        drag_block_horizontal: true,
+        drag_block_vertical: true,
+        drag_min_distance: 0
+      });
+      var lastPosX = 0;
+      var posX = 0;
+      hammer_footer.on('touch', function(ev) {
+        //log('touch');
+        lastPosX = posX;
+      });
+      hammer_footer.on('drag', function(ev) {
+
+        posX = ev.gesture.deltaX + lastPosX;
+        posX  = posX < 0 ?  posX : 0;
+        posX  = -posX > max_posX ?  -max_posX : posX;
+
+        console.log(posX)
+
+        $('.templates_content').css({
+          transform:"translate3D("+posX+"px,0,0)",
+          '-webkit-transform':"translate3D("+posX+"px,0,0)"
+        });
+
+
+      });
+
+      hammer_footer.on('dragend', function(ev) {
+        lastPosX = posX;
+      });
+
+      $('#category').change(function(){
+        $.ajax({
+          url:"<%= get_templates_wap_designs_url%>",
+          method:'post',
+          data:{category_id:$('#category option:selected').val()},
+          dataType:'JSON',
+          success:function(res){
+            var templates = res.templates;
+            ///////
+            max_posX = (templates.length*86-window_width+40) > 0 ? (templates.length*86-window_width+40):0;
+            $('.templates_content').css({
+              transform:"translate3D(0,0,0)",
+              '-webkit-transform':"translate3D(0,0,0)"
+            });
+            //////
+            $('.templates').remove();
+            var html = [];
+            $.each(templates,function(k,v){
+              var _v = "<div class='templates'>"
+              + "<div class='templates_pic'>"
+              + " <img  area_height='"+ v.area_height+"' area_width='"+ v.area_width+"' area_x='"+ v.area_x+"' area_y='"+ v.area_y+"' rotation='"+v.rotation+"' src='"+ v.image_url+"' tid='"+ v.id+"'>"
+              + '</div>'
+              + '</div>'
+              html.push(_v);
+            });
+            $('.templates_content').append(html.join(''));
+            $('.templates_pic').first().click();
+          },
+          error:function(res){
+            alert('获取模板列表失败,请重试')
+          }
+        })
+      })
+
+    })
+</script>

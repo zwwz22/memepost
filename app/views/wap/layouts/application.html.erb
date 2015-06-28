@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name='viewport' content='user-scalable=no,width=device-width, initial-scale=1.0, , maximum-scale=1.0, minimum-scale=1.0, user-scalable=1' />
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <title>微印</title>
+</head>
+
+<%= stylesheet_link_tag "wap/application", :media => "all" %>
+<%= render :partial => 'wap/layouts/share_ctl' %>
+<%= javascript_include_tag 'jquery' %>
+<%= javascript_include_tag 'jquery_ujs'%>
+<%= javascript_include_tag "wap/jquery.cookie" %>
+<body>
+
+<%= yield %>
+
+<%= csrf_meta_tags %>
+
+</body>
+</html>

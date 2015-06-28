@@ -1,0 +1,26 @@
+<style>
+  .flash-error,.flash-success{
+    position: fixed;
+    right: -200px;
+    bottom: 0;
+  }
+</style>
+<div class="alert alert-success fade flash-success">
+  <p></p>
+</div>
+
+<div class="alert alert-danger fade flash-error">
+  <p></p>
+</div>
+
+
+<% if flash.present? %>
+  <script>
+    <% flash.each do |name, msg| %>
+    <% next if msg.to_s == 'true' %>
+    show<%= if name.to_s == 'notice'; 'Success' else 'Error' end %>("<%= msg %>");
+    <% end %>
+
+  </script>
+<% end %>
+

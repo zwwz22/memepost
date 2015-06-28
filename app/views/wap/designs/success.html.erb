@@ -1,0 +1,56 @@
+<%= stylesheet_link_tag 'wap/designs_success' %>
+<div class="header">
+  <div class="left">
+    <div class="left_content">
+      <a href="<%= url_for write_blessings_wap_designs_path(:osn => @order.osn) %>"> < &nbsp 上一步</a>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right_content">
+      <%= image_tag 'wap/rmb.png',:style => ' width: 14px;
+  position: absolute;
+  right: 15px;
+  top: 18px;'%>
+      <a href="<%= write_blessings_wap_designs_path(:osn => @order.osn)%>" style="margin-right: 10px;">去支付</a>
+    </div>
+  </div>
+</div>
+
+<div class="prize">
+  <div>
+    <div>制作一张</div>
+    <div>28元</div>
+    <div style="text-decoration:line-through;">原价56元</div>
+  </div>
+</div>
+<div class="order_info">
+  <div class="dian">
+    <%= image_tag 'wap/dian.png' %>
+  </div>
+  <div class="a green">确认订单信息</div>
+  <div class="pic">
+    <%= image_tag @order.front_image_url %>
+  </div>
+  <div class="b green">
+    选择投递方式
+  </div>
+  <div class="green">
+    <div class="c" data-getway="py">
+     <div>√</div> 9.99/张（平邮）
+    </div>
+    <div class="c" data-getway="gh">
+      <div>&nbsp</div>
+      9.99/张（挂号）
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var getway = $('.c').eq(0).data('getway');
+  $('.c').click(function(){
+    $('.c').find('div').html('&nbsp');
+    $(this).find('div').html('√');
+    getway = $(this).data('getway');
+  })
+</script>

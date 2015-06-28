@@ -1,0 +1,202 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+}
+body,html{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+}
+//头部
+.header{
+  width: 100%;
+  height: 50px;
+  background: #ffffff;
+  box-shadow: 2px 2px 6px rgba(0,0,0,.5);
+  .left,.right {
+    display: inline-block;
+    width: 100px;
+    height: 30px;
+    padding: 7px;
+    text-align: center;
+    line-height: 36px;
+  }
+  .left{
+    float: left;
+  }
+  .right{
+    float: right;
+  }
+  .left_content,.right_content{
+    color: rgb(108,213,146);
+    width: 100%;
+    border: 1px solid rgb(108,213,146);
+    border-radius: 8px;
+    font-weight: 500;
+  }
+  .left_content a,.right_content a{
+    text-decoration: none;
+    color: rgb(108,213,146);
+  }
+}
+
+//内容
+.content{
+  width: 100%;
+  .content_tpl{
+    padding: 20px 5%  50px;
+    #tpl{
+      width: 90%;
+      margin: 0 auto;
+      height: 135%;
+      background: image-url('wap/bg3.png');
+      position: relative;
+      overflow: hidden;
+
+      #bg {
+        position: absolute;
+      }
+      .img {
+        position: absolute;
+        overflow: hidden;
+      }
+    }
+
+   #tpl > img{
+       width: 100%;
+       height: 100%;
+   }
+  }
+}
+
+
+
+//底部模板展示列
+.footer{
+  z-index: 997;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 86px;
+  background: image-url('wap/bg.png');
+  overflow: hidden;
+  .templates_content{
+    width: 200%;
+    height: 100%;
+    float: left;
+  }
+  .templates{
+    display: inline-block;
+    height: 76px;
+    padding: 5px;
+    width: 76px;
+    .templates_pic{
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      img{
+        padding-top: 4px;
+        padding-bottom: 4px;
+        width: 45px;
+      }
+    }
+    .border{
+      border: 1px solid #ffff00;
+      width: 74px;
+      height: 74px;
+    }
+  }
+
+}
+.footer .padd{
+}
+
+//模板类型选择
+.template_type{
+  width: 40px;
+  height: 76px;
+  padding: 5px 0 5px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  img{
+    width: 100%;
+  }
+}
+
+//遮罩
+.mask{
+  left: 0;
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 998;
+  background: rgba(0,0,0,.3);
+}
+//弹出框
+.intro{
+  z-index: 999;
+  width: 80%;
+  height: 200px;
+  left: 10%;
+  top:40%;
+  margin-left: -10px;
+  margin-top: -100px;
+  background: #ffffff;
+  position: absolute;
+  box-shadow: 2px 2px 5px rgba(0,0,0,.5);
+  padding: 10px;
+
+  .content{
+    width: 100%;
+    height: 180px;
+
+    .pic{
+      background: image-url('wap/tishi.png');
+      background-size: 100% 100%;
+      width: 100%;
+      height: 120px;
+    }
+
+    .type{
+      width: 100%;
+      height: 60px;
+
+      .select{
+        width: 100%;
+        height: 35px;
+        padding: 20px 10px 5px 10px;
+        color: rgb(108,213,146);
+        p{
+          display: inline-block;
+          height: 35px;
+          line-height: 35px
+        }
+        p:last-child{
+          width: 70%;
+          height: 35px;
+          position: relative;
+          margin-left: 5px;
+          select{
+            background: transparent;
+            -webkit-appearance: none;
+            border: 1px solid rgb(108,213,146);
+            outline: none;
+            width: 100%;
+            height: 35px;
+            padding-left: 5px;
+            color: rgb(108,213,146);
+            font-size: 16px;
+            border-radius: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+

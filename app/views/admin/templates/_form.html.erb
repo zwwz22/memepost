@@ -1,0 +1,226 @@
+
+<%= form_for [:admin,@template],:html =>{:class => 'form-horizontal'} do |f| %>
+  <% if @template.errors.any? %>
+    <% @template.errors.full_messages.each do |msg| %>
+    <div class="alert alert-danger fade in">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <i class="fa fa-times-circle fa-fw fa-lg"></i>
+      <strong><%= msg %></strong>
+    </div>
+      <% end %>
+   <% end %>
+
+  <div class="form-group">
+    <%= f.label :name, :class => 'col-lg-2 control-label'%>
+    <div class="col-lg-8">
+      <%= f.text_field :name, :class => 'form-control'%>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :is_horizontal, :class => 'col-lg-2 control-label'%>
+    <div class="col-lg-8">
+      <%= f.select :is_horizontal,{'竖版' => false, '横版' => true }, {},{:class => 'form-control'}%>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :category_id, :class => 'col-lg-2 control-label'%>
+    <div class="col-lg-8">
+      <%= f.select :category_id,Category.all.map{|c|[c.name,c.id]}, {},{:class => 'form-control'}%>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.label :image_url, :class => 'col-lg-2 control-label'%>
+    <div class="col-lg-8">
+      <%= f.file_field :up_file, :class => 'form-control',:id => 'template_image_url_upload'%>
+    </div>
+    <div class="col-lg-5 col-lg-offset-2">
+      <p id="canvasInfo"></p>
+      <canvas id="imageCanvas" style="width: 0;height: 0;border: 1px dotted gray;background-image: url(/assets/trans.png)"></canvas>
+    </div>
+  </div>
+
+  <%= f.hidden_field :area_width, :id => 'template_area_width' %>
+  <%= f.hidden_field :area_height, :id => 'template_area_height' %>
+  <%= f.hidden_field :area_x, :id => 'template_area_x' %>
+  <%= f.hidden_field :area_y, :id => 'template_area_y' %>
+
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit '提交',:class => 'btn btn-success' %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+  var displayCanvas = false;
+  $(document).delegate('#displayCanvas', 'click', function () {
+    if(displayCanvas){
+      displayCanvas = false;
+      $('#v').css('width', '0');
+      $('#imageCanvas').css('height', '0');
+    }else{
+      displayCanvas = true;
+      $('#imageCanvas').css('width', '100%');
+      $('#imageCanvas').css('height', '100%');
+    }
+  });
+
+
+  var canvas  = document.getElementById('imageCanvas');
+  var context = canvas.getContext('2d');
+
+  $('#template_image_url_upload').change(function(event){
+
+    var areaW;
+    var areaH;
+    var areaX;
+    var areaY;
+    var minX;
+    var maxX;
+    var minY;
+    var maxY;
+    var blood = 10;
+
+    var img = event.target.files[0];
+    // 检查能否读取图片
+    if(!img){
+      $('#canvasInfo').text('');
+      $('.remove').click();
+      return ;
+    }
+
+    // 检查图片类型
+    if(!(img.type.indexOf('image') == 0 && img.type && /\.(?:png)$/.test(img.name)) ){
+      alert('图片只能是png');
+      return ;
+    }
+
+    // 检查图片尺寸
+    if(img.size > 1024*1024){
+      alert('图片不能大于1M');
+      $('.remove').click();
+      return ;
+    }
+
+    $('#canvasInfo').text('正在识别可编辑区域...');
+
+    // file reader
+    var reader = new FileReader();
+    reader.readAsDataURL(img);
+
+    reader.onload = function(e){ // reader onload start
+
+      var image = new Image();
+      image.src = e.target.result;
+
+      image.onload = function(){ // image onload start
+
+        var img_width = this.width;
+        var img_height = this.height;
+
+        // 模板尺寸判断
+        var nw = 1000;
+        var nh = 1500;
+
+
+        if(img_width != nw || img_height != nh){
+          $('#canvasInfo').text('');
+          $('.remove').click();
+          alert('模板尺寸不匹配，需要像素'+nw+'x'+nh+'，当前上传尺寸'+img_width+'x'+img_height);
+          return;
+        }
+
+        // 设置画布尺寸
+        canvas.width = img_width;
+        canvas.height = img_height;
+
+        // 将图片按像素写入画布
+        context.drawImage(this, 0, 0, img_width, img_height);
+
+        // 读取图片像素信息
+        var imageData = context.getImageData(0, 0, img_width, img_height);
+
+        var length = imageData.data.length;
+
+        for(var i=0; i<length; i++){
+
+          if(i%4 === 0){ // 每四个元素为一个像素数据 r,g,b,alpha
+
+            var x = i/4%img_width;                               // 横坐标
+            var y = Math.floor(i/4/img_width);                   // 纵坐标
+
+            if(imageData.data[i+3] != 255){ // 有alpha 值
+              if(minX == undefined || x < minX){
+                minX = x;
+              }else if(maxX == undefined || x > maxX){
+                maxX = x;
+              }
+
+              if(minY == undefined || y < minY){
+                minY = y;
+              }else if(maxY == undefined || y > maxY){
+                maxY = y;
+              }
+            }
+          }
+        }
+
+        if(maxX != undefined){
+
+          // 区域出血
+          if(minX - blood < 0){
+            minX = 0;
+          }else{
+            minX = minX - blood;
+          }
+
+          if(minY - blood < 0){
+            minY = 0;
+          }else{
+            minY = minY - blood;
+          }
+
+          if(maxX + blood > img_width){
+            maxX = img_width;
+          }else{
+            maxX = maxX + blood;
+          }
+
+          if(maxY + blood > img_height){
+            maxY = img_height;
+          }else{
+            maxY = maxY + blood;
+          }
+
+          areaW = maxX - minX;
+          areaH = maxY - minY;
+          areaX = minX;
+          areaY = minY;
+
+          $('#template_area_width').val(areaW);
+          $('#template_area_height').val(areaH);
+          $('#template_area_x').val(areaX);
+          $('#template_area_y').val(areaY);
+
+          context.strokeStyle = "#1DEC0F";
+          context.lineWidth = 4;
+          context.strokeRect(areaX, areaY, areaW, areaH);
+          context.fillStyle = "rgba(0, 0, 0, 0.6)";
+          context.fillRect(areaX, areaY, areaW, areaH);
+
+          context.scale(0.5, 0.5);
+
+          $('#canvasInfo').html('可编辑区域识别成功：X'+areaX+' Y'+areaY+' W'+areaW+' H'+areaH+' <a id="displayCanvas" href="javascript:void(0)">显示/隐藏</a>');
+        }else{
+          $('#canvasInfo').text('无法识别透明区域，请手动选择！');
+        }
+      };
+
+    };
+
+  });
+</script>

@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-lg-12">
+    <ol class="breadcrumb">
+      <li><a href="#">首页</a></li>
+      <li class="active"><span>模板</span></li>
+      <a href="<%= new_admin_template_path %>" class="label label-primary label-large pull-right">
+        新增
+      </a>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="main-box no-header clearfix">
+      <div class="main-box-body clearfix">
+        <div class="table-responsive">
+          <table class="table user-list table-hover">
+            <thead>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>缩略图</span></th>
+              <th><span>名称</span></th>
+              <th><span>所属类别</span></th>
+              <th><span>创建时间</span></th>
+              <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @templates.each do |template| %>
+              <tr>
+                <td><%= template.id %></td>
+                <td>
+                  <%= image_tag template.image_url %>
+                </td>
+                <td>
+                  <span class="user-subhead"><%= template.name%></span>
+                </td>
+                <td>
+                 <%= template.try(:category).try(:name) || '无' %>
+                </td>
+                <td>
+                  <%= created_at(template.created_at)%>
+                </td>
+                <td style="width: 20%;">
+                  <a href="###" class="table-link">
+                    <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                  <a href="<%= edit_admin_template_path(template) %>" class="table-link">
+                      <span class="fa-stack">
+                      <i class="fa fa-square fa-stack-2x"></i>
+                      <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                      </span>
+                  </a>
+                  <%= link_to admin_template_path(template),:class => 'table-link danger',:confirm => '确认删除？',:method => :delete do %>
+                    <span class="fa-stack">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                  <% end %>
+                </td>
+              </tr>
+
+            <% end %>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

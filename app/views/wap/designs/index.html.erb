@@ -1,0 +1,40 @@
+<%= stylesheet_link_tag 'wap/designs'%>
+
+<div class="body">
+  <div class="header">
+    <div class="right">
+      <div class="right_content">
+        <a href="javascript:void(0)" id="submit">下一步&nbsp ></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="content-circle">
+      <%= image_tag 'wap/add_photo.png' %>
+    </div>
+    <div class="content-introduce" >
+      点击上传照片
+    </div>
+  </div>
+  <div class="content-img"><img src="" alt="" id="local_image" /></div>
+
+</div>
+
+<%= javascript_include_tag 'wap/jquery.cookie' %>
+<%= javascript_include_tag 'wap/wechat_online' %>
+<script>
+
+    $('.content-circle').eq(0).click(function(){
+      chooseImage(true);
+    })
+
+    $('#submit').click(function(){
+      if($('#local_image').attr('src') != '' && $.cookie('localId') != undefined){
+        window.location.href = "<%= new_wap_design_url%>"
+      }else{
+        alert('请上传一张图片')
+      }
+    });
+
+</script>

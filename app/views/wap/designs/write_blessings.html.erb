@@ -1,0 +1,142 @@
+<%= stylesheet_link_tag 'wap/designs_writer' %>
+<div class="mask" style="display: none">
+
+</div>
+<div class="begin_ly">
+  <div id="lv_pic">
+    <div id="close">x</div>
+    <div>
+      <%= image_tag 'wap/lvying.png' %>
+    </div>
+  </div>
+  <div class="time green" id="time">1:00</div>
+  <div class="begin" id="begin">开始录音</div>
+  <div class="end" id="end">试听录音</div>
+</div>
+
+<div class="header">
+  <div class="left">
+    <div class="left_content">
+      <a href="<%= url_for write_address_wap_designs_path(:osn => @order.osn) %>"> < &nbsp 上一步</a>
+    </div>
+  </div>
+  <div class="right">
+    <div class="right_content">
+      <a href="javascript:void(0)" id="sub">下一步&nbsp ></a>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div>
+      <textarea name="" id="blessings"  rows="5"><%= @order.blessings%></textarea>
+    <input type="text" name="sender" id="sender" placeholder="发件人" value="<%= @order.sender %>"/>
+
+    <input type="checkbox" class="check"/><span>设置录音密码</span>
+    <div class="secret">
+      <%= select_tag 'question',options_for_select(Question.all.map{|q|[q.name,q.id]}) %>
+
+      <input type="text" name="sender" id="answer" placeholder="答案" value="<%= @order.answer %>"/>
+      <p id="ok">设置好了</p>
+    </div>
+    <div class="ly">
+      <p>录音</p>
+      <div id="begin_ly">
+        <%= image_tag 'wap/lvying2.png' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag 'wap/wechat_online' %>
+
+<script>
+  checkJsApi();
+  $(function(){
+    $('#begin_ly').click(function(){
+      $('.mask').show();
+      $('.begin_ly').addClass('begin_ly_animate');
+    });
+    $('.mask, #close').click(function(){
+      $('.mask').hide();
+      $('.begin_ly').removeClass('begin_ly_animate');
+    })
+
+    $('#begin').click(function(){
+      if(!$(this).hasClass('green')){
+        $(this).addClass('green');
+        startRecord();
+      }else{
+        $(this).removeClass('green');
+        stopRecord();
+      }
+    })
+
+    $('#end').click(function(){
+       playRecord();
+    })
+
+    $('#ok').click(function(){
+      $('.check').click();
+    })
+
+    $('#sub').click(function(){
+      var blessings = $('#blessings').val().trim();
+      if(recordLocalId != undefined && recordServerId == undefined){
+        uploadVoice(recordLocalId)
+      }
+      if(recordLocalId){
+        setTimeout(function(){ if(recordServerId != '' && recordServerId != undefined){
+          $.ajax({
+            url:'/wap/designs/update_blessings',
+            method:'post',
+            data:{
+              blessings:$('#blessings').val().trim(),
+              sender:$('#sender').val().trim(),
+              recordMediaId:recordServerId,
+              voice_local_id:recordLocalId,
+              voice_media_id:recordServerId,
+              osn:"<%= @order.osn %>",
+              question_id:$('#question option:selected').val(),
+              answer:$('#answer').val()
+            },
+            dataType:'JSON',
+            success:function(data){
+              if(data.status){
+                window.location.href = data.redirect_url;   //跳转链接
+              }
+            },
+            error:function(){
+              alert('提交失败')
+            }
+          })
+        }else{
+          alert('录音未上传完，请稍等重试')
+        }},2000)
+
+    }else{
+        //提交数据
+        $.ajax({
+          url:'/wap/designs/update_blessings',
+          method:'post',
+          data:{
+            blessings:$('#blessings').val().trim(),
+            sender:$('#sender').val().trim(),
+            osn:"<%= @order.osn %>",
+            question_id:$('#question option:selected').val(),
+            answer:$('#answer').val()
+          },
+          dataType:'JSON',
+          success:function(data){
+            if(data.status){
+              window.location.href = data.redirect_url;   //跳转链接
+            }
+          },
+          error:function(){
+            alert('提交失败')
+          }
+        })
+      }
+    })
+  })
+</script>

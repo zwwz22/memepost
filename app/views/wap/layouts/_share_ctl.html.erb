@@ -1,0 +1,57 @@
+<%= raw load_wx_js_api %>
+<script>
+  wx.ready(function(){
+    <% if share %>
+    window.wxShareDesc = [
+      {
+        "title": "<%= @share_title %>",
+        "url": "<%= raw @share_url %>",
+        "desc": "<%= @share_desc %>",
+        "img": "<%= @share_img %>"
+      }
+    ];
+    <% end %>
+    <% if hide_option %>
+    wx.hideOptionMenu();
+    <% else %>
+    wx.showOptionMenu();
+    <% end %>
+
+    var shareConfig = window.wxShareDesc && window.wxShareDesc[0] ? window.wxShareDesc[0] : '';
+    var link = shareConfig ? shareConfig.url : 'http://192.168.0.214:3000/wap/designs';
+    var img = shareConfig ? shareConfig.img : 'http://192.168.0.214:3000/assets/wap/add_photo.png';
+    var desc = shareConfig ? shareConfig.desc : '免费制作明信片啦';
+    var title = shareConfig ? shareConfig.title : '么么印了个印';
+
+    wx.onMenuShareAppMessage({
+      title: title,
+      desc: desc,
+      link: link,
+      imgUrl: img
+    });
+
+    wx.onMenuShareTimeline({
+      title: desc,
+      desc: desc,
+      link: link,
+      imgUrl: img
+    });
+
+    wx.onMenuShareQQ({
+      title: title,
+      desc: desc,
+      link: link,
+      imgUrl: img
+    });
+
+    wx.onMenuShareWeibo({
+      title: title,
+      desc: desc,
+      link: link,
+      imgUrl: img
+    });
+
+  });
+
+
+</script>
