@@ -15,7 +15,7 @@
 /tmp
 /config/database.yml
 /config/config.yml
-/config/deoloy.rb
+/config/deploy.rb
 /config/initializers/qiniu_sdk.rb
 /config/deploy
 

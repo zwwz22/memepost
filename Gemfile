@@ -69,6 +69,7 @@ gem 'rqrcode_png'
 
 gem 'state_machine'
 
+
 # Davinci
 gem 'DavinciRubyClientSDK', :git => 'https://github.com/iiseeuu/DavinciRubyClientSDK.git', :branch => 'master'
 
@@ -82,6 +83,8 @@ gem 'DavinciRubyClientSDK', :git => 'https://github.com/iiseeuu/DavinciRubyClien
 # gem 'unicorn'
 
 gem 'puma'
+
+gem 'newrelic_rpm', '3.11.1.284'
 
 # Deploy with Capistrano
 # gem 'capistrano'
