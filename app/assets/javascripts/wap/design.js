@@ -173,9 +173,7 @@ function main_design() {
     imageContainerHeight: img_h,
     rotation:init_rotation
   });
-  setTimeout(function(){
-    alert(design.attrs.posX+'||| y='+ design.attrs.posY)
-  },500)
+
   $('#submit').click(function () {
 //    var media_id = 's94eGh8sv_0_9p4f9F-EEH-m7BhGoJ-UqcqveDJNkId1T2-cBdMi7vjYOi3fll9n'; //获取media_id
     var media_id = $.cookie('mediaId'); //获取media_id
@@ -224,7 +222,7 @@ function main_design() {
             dataType: 'json'
           });
         }
-      },500)
+      },600)
     }
   });
 }
