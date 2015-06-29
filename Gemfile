@@ -73,6 +73,8 @@ gem 'state_machine'
 # Davinci
 gem 'DavinciRubyClientSDK', :git => 'https://github.com/iiseeuu/DavinciRubyClientSDK.git', :branch => 'master'
 
+gem 'Rwepay', '0.0.8', :git => 'https://github.com/RaymondChou/Rwepay.git', :branch => 'mch'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

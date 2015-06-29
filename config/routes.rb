@@ -1,5 +1,9 @@
 require 'sidekiq/web'
 Memepost::Application.routes.draw do
+  get "orders/index"
+
+  get "orders/show"
+
   get "users/index"
 
   get "users/show"
@@ -23,6 +27,7 @@ Memepost::Application.routes.draw do
     resources :categories
     resources :questions
     resources :users
+    resources :orders
   end
 
   namespace :wap do

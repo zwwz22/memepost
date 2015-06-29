@@ -22,6 +22,7 @@
               <th><span>缩略图</span></th>
               <th><span>名称</span></th>
               <th><span>所属类别</span></th>
+              <th><span>方向</span></th>
               <th><span>创建时间</span></th>
               <th>操作</th>
             </tr>
@@ -38,6 +39,9 @@
                 </td>
                 <td>
                  <%= template.try(:category).try(:name) || '无' %>
+                </td>
+                <td>
+                  <%= template.is_horizontal ? '横版':'竖版' %>
                 </td>
                 <td>
                   <%= created_at(template.created_at)%>

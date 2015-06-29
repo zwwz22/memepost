@@ -3,11 +3,18 @@ class Order < ActiveRecord::Base
   # attr_accessible :title, :body
   belongs_to :template
   belongs_to :user
+  belongs_to :account
+
+  default_scope -> {order('id desc')}
 
   class << self
       def recent
         where("created_at >= ?",(Time.now.beginning_of_day - 6.days))
       end
+  end
+
+  def address
+    "#{self.receiver_county} #{self.receiver_city} #{self.receiver_province} #{self.receiver_address}"
   end
 
 

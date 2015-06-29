@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-lg-12">
+    <ol class="breadcrumb">
+      <li><a href="#">首页</a></li>
+      <li><span>订单</span></li>
+      <li class="active"><span>详情</span></li>
+      <a href="<%= admin_orders_path %>" class="label label-primary label-large pull-right">
+        返回
+      </a>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="main-box clearfix">
+      <header class="main-box-header clearfix">
+      </header>
+      <div class="main-box-body clearfix">
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+            <tr>
+              <td style="width: 30%">
+                <span>ID</span>
+              </td>
+              <td style="width: 70%">
+                <%= @order.id%>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%">
+                <span>背面图</span>
+              </td>
+              <td style="width: 70%">
+                <%= image_tag @order.back_image_url,:style => 'width:50%;border:1px solid' if @order.back_image_url.present?%>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%">
+                地址
+              </td>
+              <td style="width: 70%">
+                <%= @order.address%>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%">
+                邮编
+              </td>
+              <td style="width: 70%">
+                <%= @order.receiver_post_no%>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%">
+                发件人
+              </td>
+              <td style="width: 70%">
+                <%= @order.try(:user).try(:nickname) || ''%>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 30%">
+                创建时间
+              </td>
+              <td style="width: 70%">
+                <%= created_at(@order.created_at,true)%>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

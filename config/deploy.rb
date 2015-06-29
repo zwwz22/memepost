@@ -65,7 +65,7 @@ set :puma_init_active_record, false  # Change to true if using ActiveRecord
 # set :keep_releases, 5
 
 ## Linked Files & Directories (Default None):
-set :linked_files, %w{config/database.yml config/initializers/qiniu_sdk.rb}
+set :linked_files, %w{config/database.yml config/initializers/qiniu_sdk.rb config/config.yml}
 set :linked_dirs,  %w{tmp/pids tmp/cache tmp/sockets public/statics public/assets }
 
 #after "deploy:updated", "newrelic:notice_deployment"

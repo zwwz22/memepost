@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/RaymondChou/Rwepay.git
+  revision: 9ba6f041df7dcbd7120190e476bd381fdcf6cbee
+  branch: mch
+  specs:
+    Rwepay (0.0.8)
+
+GIT
   remote: https://github.com/iiseeuu/DavinciRubyClientSDK.git
   revision: 9e8345e3be226a1db0e5f9be3f799c8a81281715
   branch: master
@@ -239,6 +246,7 @@ PLATFORMS
 
 DEPENDENCIES
   DavinciRubyClientSDK!
+  Rwepay (= 0.0.8)!
   capistrano (~> 3.0)
   capistrano-bundler
   capistrano-ext

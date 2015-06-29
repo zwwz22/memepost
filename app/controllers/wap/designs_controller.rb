@@ -101,7 +101,48 @@ class Wap::DesignsController < Wap::BaseController
     @order = Order.find_by_osn params[:osn]
 
     ##测试订单
-    BackImageWorker.perform_async(@order.id)
+    #BackImageWorker.perform_async(@order.id)
+  end
+
+  def pay
+    @order = Order.find_by_osn params[:osn]
+    if @order.present?
+      create_we_pay @order
+    end
+  end
+
+  # 创建支付
+  def create_we_pay(order)
+
+    configs = {
+        :appid  => Setting.wechat.appid,
+        :mch_id => Setting.wechat.mch_id,
+        :key    => Setting.wechat.key,
+    }
+    js_payment = ::Rwepay::JSPayment.new(configs)
+
+    options = {
+        :body => '么么印线上定制',
+        :notify_url => 'http://shop.memeing.cn/online/purchase_notify',
+        :out_trade_no => "#{order.osn}",
+        :total_fee => order.total_fee,
+        :spbill_create_ip => request.ip,
+        :trade_type => 'JSAPI',
+        :openid => @user.openid,
+    }
+
+    brand_json, succ, prepay_id = js_payment.get_brand_request(options)
+
+    if succ
+      {:status => true, :brand => JSON.parse(brand_json), :osn => order.osn}
+    else
+      begin
+        Rails.logger.warn(prepay_id.body)
+      rescue
+        nil
+      end
+      {:status => false, :error_message => '微信支付创建失败，请稍后重试'}
+    end
   end
 
   def show

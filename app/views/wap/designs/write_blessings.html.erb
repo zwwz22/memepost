@@ -30,7 +30,7 @@
 <div class="content">
   <div>
       <textarea name="" id="blessings"  rows="5"><%= @order.blessings%></textarea>
-    <input type="text" name="sender" id="sender" placeholder="发件人" value="<%= @order.sender %>"/>
+    <input type="text" name="sender" id="sender" placeholder="发件人" value="<%= @order.sender || @user.nickname %>"/>
 
     <input type="checkbox" class="check"/><span>设置录音密码</span>
     <div class="secret">
