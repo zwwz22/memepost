@@ -1,4 +1,4 @@
-class Admin::DashboardController < Admin::ApplicationController
+class Admin::DashboardController < Admin::BaseController
   def index
     @users  = User.all.count
     @total  = Order.all.count

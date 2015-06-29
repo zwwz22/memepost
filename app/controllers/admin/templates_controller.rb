@@ -1,8 +1,8 @@
-class Admin::TemplatesController < Admin::ApplicationController
+class Admin::TemplatesController < Admin::BaseController
   before_filter :current_template, :only => [:edit,:update,:destroy]
 
   def index
-    @templates = Template.all
+    @templates = Template.paginate(:page => params[:page], :per_page => 20)
   end
 
   def new

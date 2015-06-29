@@ -86,6 +86,9 @@ gem 'puma'
 
 gem 'newrelic_rpm', '3.11.1.284'
 
+gem 'will_paginate'
+
+
 # Deploy with Capistrano
 # gem 'capistrano'
 

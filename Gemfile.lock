@@ -231,6 +231,7 @@ GEM
       rails (>= 3.1)
       railties (>= 3.1)
       roxml
+    will_paginate (3.0.5)
     yajl-ruby (1.2.1)
 
 PLATFORMS
@@ -269,3 +270,4 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   weixin_authorize
   weixin_rails_middleware
+  will_paginate

@@ -1,8 +1,8 @@
-class Admin::QuestionsController < Admin::ApplicationController
+class Admin::QuestionsController < Admin::BaseController
   before_filter :find_question, only: [:edit,:update]
 
   def index
-    @questions = Question.all
+    @questions = Question.paginate(:page => params[:page], :per_page => 20)
   end
 
   def new

@@ -1,6 +1,6 @@
-class Admin::CategoriesController < Admin::ApplicationController
+class Admin::CategoriesController < Admin::BaseController
   def index
-    @categories = Category.all
+    @categories = Category.paginate(:page => params[:page], :per_page => 20)
 
   end
 

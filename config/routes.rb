@@ -1,5 +1,9 @@
 require 'sidekiq/web'
 Memepost::Application.routes.draw do
+  get "users/index"
+
+  get "users/show"
+
   mount WeixinRailsMiddleware::Engine, at: "/"
 
   devise_for :admins, :controllers => { :sessions => "admin/sessions" }
@@ -18,6 +22,7 @@ Memepost::Application.routes.draw do
     resources :templates
     resources :categories
     resources :questions
+    resources :users
   end
 
   namespace :wap do

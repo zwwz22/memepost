@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col-lg-12">
+    <ol class="breadcrumb">
+      <li><a href="#">首页</a></li>
+      <li class="active"><span>关注用户</span></li>
+    </ol>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="main-box no-header clearfix">
+      <div class="main-box-body clearfix">
+        <div class="table-responsive">
+          <table class="table user-list table-hover">
+            <thead>
+            <tr>
+              <th><span>ID</span></th>
+              <th><span>昵称</span></th>
+              <th><span>关注账号</span></th>
+              <th><span>地址</span></th>
+              <th><span>关注时间</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @users.each do |user| %>
+              <tr>
+                <td><%= user.id %></td>
+                <td>
+                  <% if user.headimgurl.present?%>
+                  <%= image_tag user.headimgurl %>
+                    <% else %>
+                    <%= image_tag 'robert.jpg' %>
+                    <% end%>
+                  <span class="user-link">
+                     <%= user.nickname%>
+                  </span>
+                  <span class="user-subhead">
+                    <%= user.sex ? '男':'女'%>
+                  </span>
+                </td>
+                <td>
+                 <%= user.try(:account).try(:name) || '无' %>
+                </td>
+                <td>
+                  <%= user.address %>
+                </td>
+                <td>
+                  <%= created_at(user.created_at)%>
+                </td>
+              </tr>
+
+            <% end %>
+
+            </tbody>
+          </table>
+          <%= will_paginate @users %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
-class Wap::DesignsController < Wap::ApplicationController
-  #before_filter :wx_oauth,:except => [:get_templates,:show]
+class Wap::DesignsController < Wap::BaseController
+  before_filter :wx_oauth,:except => [:get_templates,:show]
 
   def index
   end
@@ -87,26 +87,8 @@ class Wap::DesignsController < Wap::ApplicationController
     @order.question_id = params[:question_id]
     @order.answer      = params[:answer]
 
-    order_media_id = @order.voice_media_id
-
     @order.voice_local_id = params[:voice_local_id]
     @order.voice_media_id = params[:voice_media_id]
-
-    ##录音还未上传
-    #if @order.voice_url.blank? &&  params[:voice_media_id].present?
-    #  #下载录音
-    #  voice_url,qr_url = Order.wx_voice_download(@order)
-    #  @order.voice_url = voice_url
-    #  @order.qr_url    = qr_url
-    #  @order.save
-    #end
-    ##新传入的录音
-    #if params[:voice_media_id].present? && order_media_id.present? && order_media_id != params[:voice_media_id]
-    #  #重新下载录音
-    #  voice_url,qr_url = Order.wx_voice_download(@order)
-    #  @order.voice_url = voice_url
-    #  @order.qr_url    = qr_url
-    #end
 
     @order.save
 
